@@ -265,7 +265,7 @@ function(tut_experiment xid name kind)
     set(stem ${TUT_CHAPTER_DIR}/experiments/${xid}_${name})
     _tut_manifest(experiment ${target} ${stem}.cpp)
 
-    # The target exists in every tree, so that the reader can build and run it wherever he likes.
+    # The target exists in every tree, so that the reader can build and run it anywhere.
     if(NOT TARGET ${target})
         set(options NO_TIDY)
         if(arg_NO_WERROR)
@@ -404,8 +404,8 @@ function(tut_drill did name)
 endfunction()
 
 # tut_problem(<pNN> <name> [REFERENCE_ONLY] [COMPILES <file>...] [REJECTS <file>...] [TIMEOUT <s>])
-# A design problem. There is no starting file: the reader creates exercises/<pNN>_<name>.h (and, if he
-# wants, exercises/<pNN>_<name>*.cpp, which are compiled in). Until that header exists, ch<NN>_<pNN> is a
+# A design problem. There is no starting file: the reader creates exercises/<pNN>_<name>.h (and, optionally,
+# exercises/<pNN>_<name>*.cpp, which are compiled in). Until that header exists, ch<NN>_<pNN> is a
 # program that says which file to create. Once it does, the next build notices (the glob below is
 # re-evaluated on every build) and ch<NN>_<pNN> becomes the test program, without running cmake by hand.
 # REFERENCE_ONLY: nothing checks the reader's answer automatically; only the reference is built and tested.
