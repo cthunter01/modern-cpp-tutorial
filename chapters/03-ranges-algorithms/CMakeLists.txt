@@ -1,0 +1,21 @@
+tut_chapter(03 ranges-algorithms)
+
+tut_example(e01 ranges OUTPUT)
+
+tut_experiment(x01 three_iterator_equal PRINTS)
+tut_experiment(x02 equal_overrun FAILS REQUIRES asan)
+tut_experiment(x03 dangling_find COMPILE_ERROR CONTROL)
+tut_experiment(x04 projection_as_comparator COMPILE_ERROR CONTROL)
+tut_experiment(x05 remove_without_erase PRINTS)
+
+tut_drill(d01 sort_by_age)
+tut_drill(d02 oldest)
+tut_drill(d03 name_of)
+tut_drill(d04 iequals COMPILES d04_c1_constexpr.cpp)
+tut_drill(d05 drop_blank)
+tut_drill(d06 first_out_of_order)
+tut_drill(d07 top_n)
+tut_problem(p01 ranking)
+tut_problem(p02 inventory_diff TIMEOUT 20)
+tut_problem(p03 resolve_command)
+tut_problem(p04 parse_level)

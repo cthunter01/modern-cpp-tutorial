@@ -1,0 +1,3 @@
+no matching function for call to object of type 'const __sort_fn'
+_Comp = int Person::*, _Proj = identity
+is_invocable_v<int

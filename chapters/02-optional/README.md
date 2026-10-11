@@ -549,4 +549,4 @@ yourself.
 
 ---
 
-Previous: [Chapter 1: Views that do not own](../01-views/README.md) | [Index](../../README.md)
+Previous: [Chapter 1: Views that do not own](../01-views/README.md) | [Index](../../README.md) | Next: [Chapter 3: Ranges I](../03-ranges-algorithms/README.md)

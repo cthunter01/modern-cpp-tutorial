@@ -282,6 +282,17 @@ def main() -> int:
                     if preset not in presets:
                         problems.add(path, number, f"--preset {preset}: no such preset")
 
+    # A header that is given to the reader (not a stub: its name has no dNN_ or pNN_ in front) exists
+    # twice, once for the exercises and once for the solutions. The two must not drift apart.
+    for given in sorted(ROOT.glob("chapters/*/exercises/*.h")):
+        if re.match(r"[dp]\d\d_", given.name):
+            continue
+        twin = ROOT / "solutions" / given.parent.parent.name / given.name
+        if not twin.is_file():
+            problems.add(given, 1, f"the given header has no copy at {twin.relative_to(ROOT)}")
+        elif twin.read_bytes() != given.read_bytes():
+            problems.add(given, 1, f"differs from its copy {twin.relative_to(ROOT)}")
+
     for notice in problems.notices:
         print(f"note: {notice}")
     for item in problems.items:

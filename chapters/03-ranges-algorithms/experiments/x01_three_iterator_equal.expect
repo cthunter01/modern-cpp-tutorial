@@ -1,0 +1,2 @@
+std::equal:         "war" and "warn" are equal: true
+std::ranges::equal: "war" and "warn" are equal: false
