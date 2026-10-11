@@ -51,5 +51,6 @@ add_subdirectory(support)
 # One line per chapter, in reading order. After adding one, configure again (cmake --preset <name>).
 add_subdirectory(chapters/00-warm-up)
 add_subdirectory(chapters/01-views)
+add_subdirectory(chapters/02-optional)
 
 tut_finish()

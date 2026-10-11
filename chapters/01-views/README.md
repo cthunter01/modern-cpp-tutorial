@@ -591,4 +591,4 @@ Next: `std::optional`, for functions like `parse_level` that may have no answer 
 
 ---
 
-Previous: [Chapter 0: Warm-up](../00-warm-up/README.md) | [Index](../../README.md)
+Previous: [Chapter 0: Warm-up](../00-warm-up/README.md) | [Index](../../README.md) | Next: [Chapter 2: `std::optional`](../02-optional/README.md)

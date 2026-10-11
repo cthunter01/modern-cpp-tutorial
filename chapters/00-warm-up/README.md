@@ -251,12 +251,15 @@ struct Window
 const Window dialog{.title = "Save as", .width = 400, .height = 300};
 ```
 
-Members you leave out get their default member initialiser, or are value-initialised if they have none:
-`dialog.fullscreen` is `false`. The names must come in the order the members are declared in, and you cannot
-skip into a nested member. Compared with `Window{"Save as", 400, 300}`, nobody has to remember which number
-is the width, and adding a member to the struct breaks no existing initialiser.
+A member you leave out gets its default member initialiser: `dialog.fullscreen` is `false`. The names must
+come in the order the members are declared in, and you cannot skip into a nested member. Compared with
+`Window{"Save as", 400, 300}`, nobody has to remember which number is the width, and adding a member with a
+default to the struct breaks no existing initialiser.
 
-The logger builds every `Record` this way (step 5):
+A member that has no default member initialiser may be left out as far as the language is concerned (it is
+value-initialised), but GCC and Clang both warn about it under `-Wextra`, and here a warning is an error. So
+such a member has to be named, if only to say `{}`. That is the reason for the first line when the logger
+builds a `Record` (step 5):
 
 <!-- logger: src/Core.cpp:257-262 -->
 ```cpp
