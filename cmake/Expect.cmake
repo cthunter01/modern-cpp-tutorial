@@ -12,6 +12,7 @@
 #       Runs EXE. STDOUT_FILE demands exactly that standard output. RESULT=timeout passes only when the
 #       program is still running after TIMEOUT seconds (a hang). RUNS demands the outcome n times in a row.
 #   -DMODE=STUB   -DBUILD_DIR=<dir> -DTARGET=<target> -DEXE=<path> [-DMAY_PASS=Suite.Case|...] [-DFIXIT=1]
+#                 [-DSAYS=<text>]
 #       The inverse check for an untouched exercise: it must build, its tests must fail, they must say
 #       NOT IMPLEMENTED, and no test case may pass. A case that passes on a stub checks nothing. FIXIT is
 #       for an exercise that starts from wrong code instead of a stub: it only has to fail.
@@ -195,9 +196,12 @@ elseif(MODE STREQUAL "STUB")
                             "--- output ---\n${out}")
     endif()
     if(NOT FIXIT)
-        string(FIND "${out}" "NOT IMPLEMENTED" at)
+        if(NOT DEFINED SAYS OR "${SAYS}" STREQUAL "")
+            set(SAYS "NOT IMPLEMENTED")
+        endif()
+        string(FIND "${out}" "${SAYS}" at)
         if(at EQUAL -1)
-            message(FATAL_ERROR "The untouched exercise ${TARGET} fails, but not by saying NOT IMPLEMENTED.\n"
+            message(FATAL_ERROR "The untouched exercise ${TARGET} fails, but not by saying ${SAYS}.\n"
                                 "--- output ---\n${out}")
         endif()
         # Every case GoogleTest reports as passed must be on the allowed list.

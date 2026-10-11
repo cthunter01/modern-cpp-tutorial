@@ -1,0 +1,2 @@
+std::move of the const variable 'item' has no effect
+performance-move-const-arg

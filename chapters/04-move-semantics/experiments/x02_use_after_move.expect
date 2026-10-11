@@ -1,0 +1,4 @@
+string:      size
+optional:    has a value: true
+unique_ptr:  is null: true
+int:         7

@@ -1,0 +1,2 @@
+moving a local object in a return statement prevents copy elision
+pessimizing-move

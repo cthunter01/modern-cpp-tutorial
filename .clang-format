@@ -48,3 +48,6 @@ IncludeCategories:
     Priority: 3
   - Regex: '^"'
     Priority: 4
+# Not in logger's file: never re-wrap a comment that carries a clang-tidy directive. Split over two
+# lines, a NOLINT no longer names its check and silently stops working.
+CommentPragmas: 'NOLINT'

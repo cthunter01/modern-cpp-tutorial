@@ -1,0 +1,2 @@
+move may throw:  the vector copied its elements while growing? yes
+move is noexcept: the vector copied its elements while growing? no (0 copies)

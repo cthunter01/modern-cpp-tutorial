@@ -53,5 +53,6 @@ add_subdirectory(chapters/00-warm-up)
 add_subdirectory(chapters/01-views)
 add_subdirectory(chapters/02-optional)
 add_subdirectory(chapters/03-ranges-algorithms)
+add_subdirectory(chapters/04-move-semantics)
 
 tut_finish()

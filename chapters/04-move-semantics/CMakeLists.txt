@@ -1,0 +1,23 @@
+tut_chapter(04 move-semantics)
+
+tut_example(e01 moves OUTPUT)
+
+tut_experiment(x01 move_without_noexcept PRINTS)
+tut_experiment(x02 use_after_move PRINTS)
+tut_experiment(x02 use_after_move TIDY)
+tut_experiment(x03 move_from_const PRINTS)
+tut_experiment(x03 move_from_const TIDY)
+tut_experiment(x04 return_std_move COMPILE_ERROR CONTROL)
+tut_experiment(x05 named_rvalue_reference PRINTS)
+
+tut_drill(d01 categories STUB_SAYS "your prediction for expression")
+tut_drill(d02 buffer)
+tut_drill(d03 named FIXIT)
+tut_drill(d04 registry FIXIT)
+tut_drill(d05 outbox)
+tut_drill(d06 make_items)
+tut_drill(d07 drain_into)
+tut_drill(d08 scoped_count)
+tut_problem(p01 history)
+tut_problem(p02 handle)
+tut_problem(p03 message_builder REFERENCE_ONLY)
