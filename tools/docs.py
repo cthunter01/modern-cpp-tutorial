@@ -230,7 +230,8 @@ def check_prose(path: Path, number: int, line: str, problems: Problems,
 
     for span in CODE_SPAN.findall(line):
         token = span.strip()
-        if " " not in token and "*" not in token and "<" not in token:
+        # A path with NN in it is a pattern ("chapters/NN-slug/"), not a file.
+        if " " not in token and "*" not in token and "<" not in token and "NN" not in token:
             candidate: Path | None = None
             if token.startswith(CHAPTER_DIRS) and path.parent.parent.name == "chapters":
                 candidate = path.parent / token
