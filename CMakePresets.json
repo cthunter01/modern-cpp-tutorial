@@ -1,0 +1,112 @@
+{
+  "version": 6,
+  "cmakeMinimumRequired": { "major": 3, "minor": 28, "patch": 0 },
+  "configurePresets": [
+    {
+      "name": "base",
+      "hidden": true,
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/${presetName}",
+      "cacheVariables": {
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+        "CMAKE_COLOR_DIAGNOSTICS": "ON"
+      }
+    },
+    {
+      "name": "clang",
+      "hidden": true,
+      "inherits": "base",
+      "condition": { "type": "notEquals", "lhs": "${hostSystemName}", "rhs": "Windows" },
+      "cacheVariables": { "CMAKE_CXX_COMPILER": "clang++" }
+    },
+    {
+      "name": "gcc",
+      "hidden": true,
+      "inherits": "base",
+      "condition": { "type": "equals", "lhs": "${hostSystemName}", "rhs": "Linux" },
+      "cacheVariables": { "CMAKE_CXX_COMPILER": "g++" }
+    },
+    {
+      "name": "clang-debug",
+      "displayName": "Clang Debug",
+      "inherits": "clang",
+      "cacheVariables": { "CMAKE_BUILD_TYPE": "Debug" }
+    },
+    {
+      "name": "gcc-debug",
+      "displayName": "GCC Debug",
+      "inherits": "gcc",
+      "cacheVariables": { "CMAKE_BUILD_TYPE": "Debug" }
+    },
+    {
+      "name": "asan",
+      "displayName": "Clang Debug, AddressSanitizer + UndefinedBehaviorSanitizer",
+      "inherits": "clang",
+      "cacheVariables": { "CMAKE_BUILD_TYPE": "Debug", "TUT_SANITIZERS": "address;undefined" }
+    },
+    {
+      "name": "tsan",
+      "displayName": "Clang RelWithDebInfo, ThreadSanitizer",
+      "inherits": "clang",
+      "cacheVariables": { "CMAKE_BUILD_TYPE": "RelWithDebInfo", "TUT_SANITIZERS": "thread" }
+    },
+    {
+      "name": "tidy",
+      "displayName": "Clang Debug, clang-tidy while compiling",
+      "inherits": "clang",
+      "cacheVariables": { "CMAKE_BUILD_TYPE": "Debug", "TUT_ENABLE_CLANG_TIDY": "ON" }
+    }
+  ],
+  "buildPresets": [
+    { "name": "build-base", "hidden": true, "nativeToolOptions": ["-k", "0"] },
+    { "name": "clang-debug", "inherits": "build-base", "configurePreset": "clang-debug" },
+    { "name": "gcc-debug", "inherits": "build-base", "configurePreset": "gcc-debug" },
+    { "name": "asan", "inherits": "build-base", "configurePreset": "asan" },
+    { "name": "tsan", "inherits": "build-base", "configurePreset": "tsan" },
+    { "name": "tidy", "inherits": "build-base", "configurePreset": "tidy" }
+  ],
+  "testPresets": [
+    {
+      "name": "test-base",
+      "hidden": true,
+      "output": { "outputOnFailure": true },
+      "execution": { "noTestsAction": "error" }
+    },
+    {
+      "name": "exercises",
+      "hidden": true,
+      "inherits": "test-base",
+      "filter": { "include": { "label": "^exercise$" } }
+    },
+    { "name": "clang-debug", "inherits": "exercises", "configurePreset": "clang-debug" },
+    { "name": "gcc-debug", "inherits": "exercises", "configurePreset": "gcc-debug" },
+    { "name": "asan", "inherits": "exercises", "configurePreset": "asan" },
+    { "name": "tsan", "inherits": "exercises", "configurePreset": "tsan" },
+    { "name": "tidy", "inherits": "exercises", "configurePreset": "tidy" },
+    {
+      "name": "examples",
+      "displayName": "The examples the chapters quote, and the tutorial's self-check",
+      "inherits": "test-base",
+      "configurePreset": "clang-debug",
+      "filter": { "include": { "label": "^(example|selfcheck)$" } }
+    },
+    {
+      "name": "solutions",
+      "displayName": "The reference solutions",
+      "inherits": "test-base",
+      "configurePreset": "clang-debug",
+      "filter": { "include": { "label": "^solution$" } }
+    }
+  ],
+  "workflowPresets": [
+    {
+      "name": "dev",
+      "displayName": "Configure Clang Debug, build the examples, run them",
+      "steps": [
+        { "type": "configure", "name": "clang-debug" },
+        { "type": "build", "name": "clang-debug" },
+        { "type": "test", "name": "examples" }
+      ]
+    }
+  ]
+}

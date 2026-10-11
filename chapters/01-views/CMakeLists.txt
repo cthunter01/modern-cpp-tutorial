@@ -1,0 +1,25 @@
+tut_chapter(01 views)
+
+tut_example(e01 views OUTPUT)
+
+# Clang refuses to compile x01 (a warning, and warnings are errors). GCC compiles it, and it runs.
+tut_experiment(x01 return_local_view COMPILE_ERROR ONLY clang)
+tut_experiment(x01 return_local_view PRINTS ONLY gcc)
+tut_experiment(x02 view_of_temporary PRINTS)
+tut_experiment(x02 view_of_temporary FAILS REQUIRES asan)
+tut_experiment(x03 strlen_of_slice PRINTS)
+tut_experiment(x03 strlen_of_slice TIDY)
+tut_experiment(x04 unterminated_buffer FAILS REQUIRES asan)
+tut_experiment(x05 span_after_growth PRINTS)
+tut_experiment(x05 span_after_growth FAILS REQUIRES asan)
+
+tut_drill(d01 trim COMPILES d01_c1_constexpr.cpp)
+tut_drill(d02 split)
+tut_drill(d03 next_token)
+tut_drill(d04 mean)
+tut_drill(d05 scale)
+tut_drill(d06 longest_run)
+tut_drill(d07 parse_pairs)
+tut_problem(p01 section_body)
+tut_problem(p02 payload_checksum)
+tut_problem(p03 signatures REFERENCE_ONLY)

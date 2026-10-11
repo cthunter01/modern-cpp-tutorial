@@ -1,0 +1,4 @@
+ERROR: AddressSanitizer: heap-use-after-free
+READ of size 4
+freed by thread T0 here:
+previously allocated by thread T0 here:

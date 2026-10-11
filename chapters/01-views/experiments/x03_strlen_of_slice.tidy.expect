@@ -1,0 +1,2 @@
+result of a `data()` call may not be null terminated
+bugprone-suspicious-stringview-data-usage

@@ -1,0 +1,3 @@
+ERROR: AddressSanitizer: heap-buffer-overflow
+READ of size 5
+is located 0 bytes after 4-byte region

@@ -1,0 +1,2 @@
+address of stack memory associated with local variable 'joined' returned
+-Wreturn-stack-address

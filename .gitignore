@@ -1,0 +1,16 @@
+# Build output (every preset builds into build/<preset>)
+build/
+Testing/
+
+# Tooling
+.cache/
+compile_commands.json
+CMakeUserPresets.json
+.claude/settings.local.json
+__pycache__/
+*.swp
+*~
+.DS_Store
+.vscode/
+.idea/
+.vs/
