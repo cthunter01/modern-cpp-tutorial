@@ -344,7 +344,7 @@ function(_tut_exercise_tests id)
         COMMAND ${PROJECT_BINARY_DIR}/bin/${id}${CMAKE_EXECUTABLE_SUFFIX} --gtest_brief=1 ${colour})
 endfunction()
 
-# tut_drill(<dNN> <name> [FIXIT] [STUB_SAYS <text>] [COMPILES <file>...] [REJECTS <file>...]
+# tut_drill(<dNN> <name> [FIXIT] [COMPILE_TIME] [STUB_SAYS <text>] [COMPILES <file>...] [REJECTS <file>...]
 #           [STUB_MAY_PASS <Suite.Case>...] [TIMEOUT <s>])
 # A drill: exercises/<dNN>_<name>.h is the stub the reader edits, tests/<dNN>_<name>_tests.cpp its tests,
 # solutions/<chapter>/<dNN>_<name>.h the reference. Creates
@@ -353,11 +353,13 @@ endfunction()
 #   stub<NN>_<dNN>   the inverse check (plain trees): the untouched stub must fail every case, saying
 #                    NOT IMPLEMENTED                             label stub
 # FIXIT: the starting file is wrong code to be repaired, not a stub; it only has to fail its tests.
+# COMPILE_TIME: what the drill asks for is visible to the compiler (a return type, a constraint), so the
+#   untouched stub does not build with its tests. The inverse check then demands exactly that.
 # STUB_SAYS: the starting file fails every case, but not through TUT_TODO (a table of predictions still
 #   to be filled in); <text> is what its failures say instead of NOT IMPLEMENTED.
 # COMPILES and REJECTS: see _tut_compile_checks.
 function(tut_drill did name)
-    cmake_parse_arguments(arg "FIXIT" "TIMEOUT;STUB_SAYS" "COMPILES;REJECTS;STUB_MAY_PASS" ${ARGN})
+    cmake_parse_arguments(arg "FIXIT;COMPILE_TIME" "TIMEOUT;STUB_SAYS" "COMPILES;REJECTS;STUB_MAY_PASS" ${ARGN})
     set(stem ${did}_${name})
     set(id ch${TUT_CHAPTER_ID}_${did})
     set(solution_id sol${TUT_CHAPTER_ID}_${did})
@@ -384,15 +386,20 @@ function(tut_drill did name)
         LABELS solution ${TUT_CHAPTER_LABEL} COMPILES ${arg_COMPILES} REJECTS ${arg_REJECTS})
 
     if(TUT_TREE STREQUAL "plain")
-        list(JOIN arg_STUB_MAY_PASS "|" may_pass)
-        set(fixit "")
-        if(arg_FIXIT)
-            set(fixit -DFIXIT=1)
+        if(arg_COMPILE_TIME)
+            _tut_expect_test(stub${TUT_CHAPTER_ID}_${did} LABELS stub ${TUT_CHAPTER_LABEL}
+                ARGS -DMODE=BUILD -DBUILD_DIR=${PROJECT_BINARY_DIR} -DTARGET=${id} -DRESULT=fail)
+        else()
+            list(JOIN arg_STUB_MAY_PASS "|" may_pass)
+            set(fixit "")
+            if(arg_FIXIT)
+                set(fixit -DFIXIT=1)
+            endif()
+            _tut_expect_test(stub${TUT_CHAPTER_ID}_${did} LABELS stub ${TUT_CHAPTER_LABEL}
+                ARGS -DMODE=STUB -DBUILD_DIR=${PROJECT_BINARY_DIR} -DTARGET=${id}
+                -DEXE=${PROJECT_BINARY_DIR}/bin/${id}${CMAKE_EXECUTABLE_SUFFIX} "-DMAY_PASS=${may_pass}"
+                "-DSAYS=${arg_STUB_SAYS}" ${fixit})
         endif()
-        _tut_expect_test(stub${TUT_CHAPTER_ID}_${did} LABELS stub ${TUT_CHAPTER_LABEL}
-            ARGS -DMODE=STUB -DBUILD_DIR=${PROJECT_BINARY_DIR} -DTARGET=${id}
-            -DEXE=${PROJECT_BINARY_DIR}/bin/${id}${CMAKE_EXECUTABLE_SUFFIX} "-DMAY_PASS=${may_pass}"
-            "-DSAYS=${arg_STUB_SAYS}" ${fixit})
     endif()
 endfunction()
 

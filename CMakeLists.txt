@@ -54,5 +54,6 @@ add_subdirectory(chapters/01-views)
 add_subdirectory(chapters/02-optional)
 add_subdirectory(chapters/03-ranges-algorithms)
 add_subdirectory(chapters/04-move-semantics)
+add_subdirectory(chapters/05-forwarding)
 
 tut_finish()

@@ -1,6 +1,8 @@
 # Whole check families are enabled; the checks that are mostly noise are turned off.
 # Findings are warnings here (clangd shows them in the editor); the `tidy` preset makes them errors.
-# Derived from logger's .clang-tidy: same checks, same naming rules.
+# Derived from logger's .clang-tidy: same checks, same naming rules. One check more is off,
+# cppcoreguidelines-pro-bounds-array-to-pointer-decay: a string literal is an array, and every template
+# that is handed one and prints or compares it would need a NOLINT.
 Checks: >
   -*,
   bugprone-*,
@@ -11,6 +13,7 @@ Checks: >
   -cppcoreguidelines-avoid-magic-numbers,
   -cppcoreguidelines-non-private-member-variables-in-classes,
   -cppcoreguidelines-pro-bounds-avoid-unchecked-container-access,
+  -cppcoreguidelines-pro-bounds-array-to-pointer-decay,
   google-runtime-int,
   misc-*,
   -misc-no-recursion,

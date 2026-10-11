@@ -1,0 +1,22 @@
+tut_chapter(05 forwarding)
+
+tut_example(e01 forwarding OUTPUT)
+
+tut_experiment(x01 move_instead_of_forward PRINTS)
+tut_experiment(x02 no_forward COMPILE_ERROR CONTROL)
+tut_experiment(x03 forward_whole_pack COMPILE_ERROR CONTROL)
+tut_experiment(x04 braced_argument COMPILE_ERROR CONTROL)
+tut_experiment(x05 zero_as_pointer COMPILE_ERROR CONTROL)
+
+tut_drill(d01 count_and_sum COMPILES d01_c1_constexpr.cpp)
+tut_drill(d02 join_with)
+tut_drill(d03 deduce STUB_SAYS "your prediction for")
+tut_drill(d04 is_one_of COMPILES d04_c1_constexpr.cpp)
+tut_drill(d05 call_logged COMPILE_TIME)
+tut_drill(d06 fixed_stack)
+tut_drill(d07 make_drawn)
+tut_drill(d08 label FIXIT COMPILES d08_c1_copying.cpp)
+tut_drill(d09 tee)
+tut_problem(p01 retry)
+tut_problem(p02 event)
+tut_problem(p03 timed)

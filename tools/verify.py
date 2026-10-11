@@ -110,13 +110,15 @@ def check_tree(source: Path, tree: str, jobs: int, report: Report, logs: Path) -
 
     # Compile in parallel first; the tests then find everything built and only run.
     targets = ["all", "solutions", "experiments"]
-    if tree in PLAIN_TREES:
-        targets.append("exercises")   # in a pristine tree every stub has to build
     if tree == "tsan":
         targets = ["all", "solutions"]
     log = logs / f"{tree}-build.log"
     built = run(["cmake", "--build", "--preset", tree, "-t", *targets], source, log)
     report.add(built == 0, f"{tree}: build of {', '.join(targets)}" + ("" if built == 0 else f" (see {log})"))
+    if tree in PLAIN_TREES:
+        # The untouched exercises, for speed only: some of them are meant not to compile, and the
+        # stub checks say for each one which it has to be.
+        run(["cmake", "--build", "--preset", tree, "-t", "exercises"], source, logs / f"{tree}-exercises.log")
 
     junit = build / "verify.xml"
     command = ["ctest", "--test-dir", str(build), "-LE", "^exercise$", "--no-tests=error",
